@@ -1,7 +1,7 @@
 import type { StateCreator } from "zustand/vanilla";
 import type { PoemData, PoetryExplorerState } from "@/data-model/types.ts";
 
-type RestStatus = "loading" | "success" | "error" | "idle";
+export type RestStatus = "loading" | "success" | "error" | "idle";
 const url = "https://poetrydb.org";
 
 export interface EndpointsState {
@@ -22,13 +22,15 @@ const initialState: EndpointsState = {
 
 export const EndpointsSlice: StateCreator<
   PoetryExplorerState,
-  [],
+  [["zustand/immer", never]],
   [],
   EndpointsState & EndpointsActions
 > = (set) => ({
   ...initialState,
   search: async (searchTerm, searchBy) => {
-    set({ searchResults: { status: "loading", data: [] } });
+    set((state) => {
+      state.searchResults.status = "loading";
+    });
     try {
       let searchResults = [];
       if (searchBy === "author") {
@@ -49,12 +51,16 @@ export const EndpointsSlice: StateCreator<
     }
   },
   getPoem: async (authorName, title) => {
-    set({ poem: { status: "loading", data: { author: "", title: "" } } });
+    set((state) => {
+      state.poem.status = "loading";
+    });
     try {
       const poem = await fetchPoem(authorName, title);
-      set({ poem: { status: "success", data: poem } });
+      set({ poem: { status: "success", data: poem[0] } });
     } catch (e) {
-      set({ searchResults: { status: "error", data: [] }, error: e.message });
+      set((state) => {
+        state.poem.status = "error";
+      });
     }
   },
 });

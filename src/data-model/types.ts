@@ -8,6 +8,6 @@ export type PoetryExplorerState = EndpointsState & EndpointsActions;
 export type PoemData = {
   title: string;
   author: string;
-  lines?: string;
+  lines?: string[];
   linecount?: number;
 };

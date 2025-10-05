@@ -120,9 +120,27 @@
 }
 
 .parchment {
+    height: calc(100vh - 58px);
     margin: 0 .5rem 0.5rem 0;
     padding: 4em;
     box-shadow: 2px 3px 20px black, 0 0 60px var(--ring) inset;
     background: var(--card);
     filter: url(#wavy2);
+}
+.libre-baskerville-regular {
+    font-family: "Libre Baskerville", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.libre-baskerville-bold {
+    font-family: "Libre Baskerville", serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.libre-baskerville-regular-italic {
+    font-family: "Libre Baskerville", serif;
+    font-weight: 400;
+    font-style: italic;
 }

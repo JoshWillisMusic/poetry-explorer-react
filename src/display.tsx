@@ -1,44 +1,50 @@
-import {
-  Item,
-  ItemActions,
-  ItemContent,
-  ItemDescription,
-  ItemTitle,
-} from "@/components/ui/item.tsx";
-import { Button } from "@/components/ui/button.tsx";
-import {
-  Card,
-  CardAction,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card.tsx";
-import { usePoetryExplorerStore } from "@/data-model/store.ts";
+import { type FC, useMemo, useRef } from "react";
+import type { PoemData } from "@/data-model/types.ts";
+import type { RestStatus } from "@/data-model/endpoints_slice.ts";
+import cn from "classnames";
 
 interface PoemDisplayProps {
-  poem: Poem;
+  poem: PoemData;
+  status: RestStatus;
 }
-const PoemDisplay = () => {
-  const selectedPoem = usePoetryExplorerStore((state) => state.selectedPoem);
-
+const PoemDisplay: FC<PoemDisplayProps> = ({ poem, status }) => {
+  const poemContentRef = useRef<HTMLDivElement>(null);
+  const height = useMemo(() => {
+    console.log(poemContentRef.current?.getBoundingClientRect().height);
+    return poemContentRef.current?.getBoundingClientRect().height;
+  }, [poemContentRef]);
   return (
-    <div className={"flex flex-col content-center pr-2.5 relative"}>
-      <div> </div>
-      <div className={"flex flex-col gap-4"}>
-        <svg style={{ display: "none" }} width="0" height="0" version="1.1">
-          <filter id="wavy2">
-            <feTurbulence
-              x="0"
-              y="0"
-              baseFrequency="0.03"
-              numOctaves="4"
-              seed="1"
-            ></feTurbulence>
-            <feDisplacementMap in="SourceGraphic" scale="20" />
-          </filter>
-        </svg>
-        <div className="parchment"></div>
+    <div
+      className={cn("relative", {
+        "blur-lg": status === "loading",
+      })}
+    >
+      <div
+        className={cn(
+          "absolute z-20 m-auto mt-8 top-0 left-0 right-0 libre-baskerville-regular overflow-auto h-[calc(100vh_-_100px)]",
+          {
+            "blur-lg": status === "loading",
+          },
+        )}
+      >
+        {status === "success" && (
+          <>
+            <div className="p-6 flex flex-col gap-2 items-center justify-center ">
+              <span className="text-2xl libre-baskerville-bold whitespace-pre-wrap text-center">
+                {poem.title.replace(/([.,:])/g, "$1\n")}
+              </span>
+              <span>by {poem.author}</span>
+              <span>Number of Lines - {poem.linecount}</span>
+            </div>
+            <p className={"p-2.5 flex flex-col items-center"}>
+              {poem.lines?.map((line, index) => (
+                <span key={poem.title + poem.title + index.toString()}>
+                  {line}
+                </span>
+              ))}
+            </p>
+          </>
+        )}
       </div>
     </div>
   );
