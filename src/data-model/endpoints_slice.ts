@@ -88,3 +88,6 @@ export const fetchPoem = async (authorName: string, title: string) => {
   });
   return response.json();
 };
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
