@@ -118,3 +118,11 @@
     @apply bg-background text-foreground;
   }
 }
+
+.parchment {
+    margin: 0 .5rem 0.5rem 0;
+    padding: 4em;
+    box-shadow: 2px 3px 20px black, 0 0 60px var(--ring) inset;
+    background: var(--card);
+    filter: url(#wavy2);
+}

@@ -19,21 +19,20 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable.tsx";
-import PoemDisplay from "@/display.tsx";
-import SearchResults from "@/results.tsx";
 
 export const Content = () => {
   return (
-    <ResizablePanelGroup
-      direction="horizontal"
-      className="w-dvw h-[calc(100vh_-_2rem)] mt-12"
-    >
+    <ResizablePanelGroup direction="horizontal" className="w-dvw h-dvh ">
       <ResizablePanel defaultSize={50}>
-        <SearchResults />
+        <div className="flex h-dvh w-1/2 items-center justify-center p-6">
+          <span className="font-semibold">Results</span>
+        </div>
       </ResizablePanel>
       <ResizableHandle withHandle={true} />
       <ResizablePanel defaultSize={50}>
-        <PoemDisplay />
+        <div className="flex h-dvh w-1/2 items-center justify-center p-6">
+          <span className="font-semibold">Poem Display</span>
+        </div>
       </ResizablePanel>
     </ResizablePanelGroup>
   );
