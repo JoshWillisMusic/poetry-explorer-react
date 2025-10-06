@@ -1,4 +1,4 @@
-import { type FC, useMemo, useRef } from "react";
+import { type FC } from "react";
 import type { PoemData } from "@/data-model/types.ts";
 import type { RestStatus } from "@/data-model/endpoints_slice.ts";
 import cn from "classnames";
@@ -8,11 +8,6 @@ interface PoemDisplayProps {
   status: RestStatus;
 }
 const PoemDisplay: FC<PoemDisplayProps> = ({ poem, status }) => {
-  const poemContentRef = useRef<HTMLDivElement>(null);
-  const height = useMemo(() => {
-    console.log(poemContentRef.current?.getBoundingClientRect().height);
-    return poemContentRef.current?.getBoundingClientRect().height;
-  }, [poemContentRef]);
   return (
     <div className={cn("relative")}>
       <div
@@ -26,6 +21,7 @@ const PoemDisplay: FC<PoemDisplayProps> = ({ poem, status }) => {
             {
               "blur-sm": status === "loading",
               "opacity-40": status === "loading",
+              hidden: status === "idle",
             },
           )}
         >
@@ -43,6 +39,7 @@ const PoemDisplay: FC<PoemDisplayProps> = ({ poem, status }) => {
           className={cn("p-2.5 flex flex-col items-center", {
             "blur-sm": status === "loading",
             "opacity-40": status === "loading",
+            hidden: status === "idle",
           })}
         >
           {poem.lines?.map((line, index) => (

@@ -1,5 +1,5 @@
-import Header from "@/components/ui/header.tsx";
-import { ThemeProvider } from "@/components/theme-provider.tsx";
+import Header from "@/header.tsx";
+import { ThemeProvider } from "@/hooks/theme-provider.tsx";
 import { Content } from "@/content.tsx";
 
 function App() {

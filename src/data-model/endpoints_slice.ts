@@ -46,8 +46,8 @@ export const EndpointsSlice: StateCreator<
           error: searchResults.status.toString() + searchResults.reason,
         });
       }
-    } catch (e) {
-      set({ searchResults: { status: "error", data: [] }, error: e.message });
+    } catch {
+      set({ searchResults: { status: "error", data: [] } });
     }
   },
   getPoem: async (authorName, title) => {
@@ -56,8 +56,13 @@ export const EndpointsSlice: StateCreator<
     });
     try {
       const poem = await fetchPoem(authorName, title);
-      set({ poem: { status: "success", data: poem[0] } });
-    } catch (e) {
+      set({
+        poem: {
+          status: "success",
+          data: poem.filter((p: PoemData) => p.title === title)[0],
+        },
+      });
+    } catch {
       set((state) => {
         state.poem.status = "error";
       });
@@ -88,6 +93,3 @@ export const fetchPoem = async (authorName: string, title: string) => {
   });
   return response.json();
 };
-function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}

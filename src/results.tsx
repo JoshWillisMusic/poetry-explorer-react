@@ -7,15 +7,12 @@ import {
   ItemDescription,
   ItemTitle,
 } from "@/components/ui/item.tsx";
-import { Button } from "@/components/ui/button.tsx";
-import type { PoemData } from "@/data-model/types.ts";
-import { useEffect } from "react";
+import { BookText, Star } from "lucide-react";
+import { Toggle } from "@/components/ui/toggle.tsx";
 const SearchResults = () => {
   const searchResults = usePoetryExplorerStore((state) => state.searchResults);
   const getPoem = usePoetryExplorerStore((state) => state.getPoem);
-  useEffect(() => {
-    console.log(searchResults.data);
-  }, [searchResults]);
+  const selectedPoem = usePoetryExplorerStore((state) => state.poem);
 
   return (
     <div
@@ -31,6 +28,14 @@ const SearchResults = () => {
         <Item
           variant="muted"
           key={result.author + result.title + index.toString()}
+          className={cn({
+            "border-border":
+              result.author + result.title ===
+              selectedPoem.data.author + selectedPoem.data.title,
+            "bg-card":
+              result.author + result.title ===
+              selectedPoem.data.author + selectedPoem.data.title,
+          })}
         >
           <ItemContent
             className={cn({
@@ -49,13 +54,21 @@ const SearchResults = () => {
               "opacity-10": searchResults.status === "loading",
             })}
           >
-            <Button
+            <Toggle
               variant="outline"
               size="sm"
               onClick={() => getPoem(result.author, result.title)}
+              pressed={
+                result.author + result.title ===
+                selectedPoem.data.author + selectedPoem.data.title
+              }
             >
-              Preview
-            </Button>
+              Display
+              <BookText />
+            </Toggle>
+            <Toggle variant="outline" size="sm">
+              <Star />
+            </Toggle>
           </ItemActions>
         </Item>
       ))}

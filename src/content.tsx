@@ -1,28 +1,10 @@
 import {
-  Item,
-  ItemActions,
-  ItemContent,
-  ItemDescription,
-  ItemTitle,
-} from "@/components/ui/item.tsx";
-import { Button } from "@/components/ui/button.tsx";
-import {
-  Card,
-  CardAction,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card.tsx";
-import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable.tsx";
 import PoemDisplay from "@/display.tsx";
 import SearchResults from "@/results.tsx";
-import cn from "classnames";
-import { use } from "react";
 import { usePoetryExplorerStore } from "@/data-model/store.ts";
 
 export const Content = () => {
